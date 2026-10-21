@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}{{ zone.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'zone_list' %}">Зоны</a></li>
+        <li class="breadcrumb-item active">{{ zone.title }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-8">
+        <h1>{{ zone.emoji }} {{ zone.title }}</h1>
+        <p class="lead">{{ zone.subtitle }}</p>
+        <p>{{ zone.description }}</p>
+
+        <h3 class="mt-4">Характеристики</h3>
+        <ul class="list-group mb-4">
+            {% if zone.cpu %}<li class="list-group-item"><strong>Процессор:</strong> {{ zone.cpu }}</li>{% endif %}
+            {% if zone.gpu %}<li class="list-group-item"><strong>Видеокарта:</strong> {{ zone.gpu }}</li>{% endif %}
+            {% if zone.ram %}<li class="list-group-item"><strong>ОЗУ:</strong> {{ zone.ram }}</li>{% endif %}
+            {% if zone.monitor %}<li class="list-group-item"><strong>Монитор:</strong> {{ zone.monitor }}</li>{% endif %}
+        </ul>
+
+        <h3>Особенности</h3>
+        <ul>
+            {% for feature in zone.features.all %}
+                <li>{{ feature.name }}</li>
+            {% empty %}
+                <li>Особенности не указаны.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Стоимость</h5>
+                <p class="display-6">{{ zone.price }} ₽/час</p>
+                <p>Категория: {{ zone.category.name }}</p>
+                {% if zone.popular %}<span class="badge bg-success">Популярно</span>{% endif %}
+                <a href="{% url 'zone_list' %}" class="btn btn-secondary mt-3 w-100">Назад к списку</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
